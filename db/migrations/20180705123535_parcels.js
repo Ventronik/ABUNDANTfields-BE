@@ -4,7 +4,7 @@ exports.up = function(knex, Promise) {
   return knex.schema.createTable(TABLE_NAME, function(table){
     table.increments()
     table.string('parcel_name').notNullable()
-    table.string('location').notNullable()
+    table.json('location').notNullable()
     table.integer('parcel_type').references('parcel_types.id')
     table.integer('owner_id').references('users.id')
     table.integer('acres').notNullable()

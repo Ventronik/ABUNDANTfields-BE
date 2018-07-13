@@ -8,6 +8,12 @@ const userController = require('../controllers/users')
 
 router.post('/', userController.create)
 router.get('/', userController.getAll)
-router.get('/:id', userController.getOne) 
+router.get('/:id', userController.getOne)
+// router.get('/:id/transactions', userController.getUserTransactions) // need to re-add  authController.isAuthenticated,
+// router.get('/:id/transactions/:transaction_id', userController.getOneUserTransaction) // need to re-add  authController.isAuthenticated,
+router.post('/:id/parcel', userController.createUserParcel) // need to re-add  authController.isAuthenticated,
+router.get('/:id/parcels', userController.getUserParcels)
+// router.get('/:id/parcels/:parcel_id', userController.getUserParcel) // need to re-add  authController.isAuthenticated,
+
 
 module.exports = router

@@ -14,8 +14,10 @@ function getAll(orderByColumn='id', orderDirection='asc') {
       'parcels.location as location',
       'transactions.owner_id as owner',
       'users.first_name as fname',
-      'users.last_name as lname')
-    // )
+      'users.last_name as lname',
+      'users.username',
+      'parcels.parcel_name as parcel_name'
+    )
     .orderBy(orderByColumn, orderDirection)
   return query
 }

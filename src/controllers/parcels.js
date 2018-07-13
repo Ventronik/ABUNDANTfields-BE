@@ -16,15 +16,6 @@ function getOne(req, res, next) {
   .catch(next)
 }
 
-function create(req, res, next) {
-  const { parcel_name, location, parcel_type, owner_id, acres} = req.body
-  parcelsModel.create(parcel_name, location, parcel_type,owner_id, acres)
-  .then(parcel => {
-    res.status(200).send({parcel})
-  })
-  .catch(next)
-}
-
 function remove(req, res, next) {
   const date = new Date()
   parcelsModel.remove(req.params.id, date)
@@ -43,7 +34,6 @@ function edit(req, res, next) {
 }
 
 module.exports = {
-  create,
   getAll,
   getOne,
   edit,

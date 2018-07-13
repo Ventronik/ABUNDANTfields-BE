@@ -17,12 +17,6 @@ function getOne(id){
   )
 }
 
-function create(parcel_name, location, parcel_type, owner_id, acres) {
-  return db('parcels')
-  .insert({parcel_name, location, parcel_type, owner_id, acres})
-  .returning('*')
-}
-
 function edit(id, parcel_name, location, parcel_type, owner_id, acres) {
   return db('parcels')
   .update({parcel_name, location, parcel_type, owner_id, acres})
@@ -41,7 +35,6 @@ function remove(id, date){
 module.exports = {
   getAll,
   getOne,
-  create,
   edit,
   remove
 }

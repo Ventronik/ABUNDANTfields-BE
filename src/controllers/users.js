@@ -9,6 +9,14 @@ function create(req, res, next){
     return next({ status: 400, message: 'Bad password'})
   }
 
+  if(!req.body.first_name){
+    return next({ status: 400, message: 'Need first name'})
+  }
+
+  if(!req.body.last_name){
+    return next({ status: 400, message: 'Need last name'})
+  }
+
   userModel.create(req.body.username, req.body)
   .then(function(data){
     return res.status(201).send({ data })
@@ -32,6 +40,24 @@ function getOne(req, res, next){
   .catch(next)
 }
 
+function createUserParcel(req, res, next){
+  console.log('KITTENS: ', req.body)
+  const { parcel_name, location, parcel_type, owner_id, acres} = req.body
+  userModel.createUserParcel(parcel_name, location, parcel_type, req.params.id, acres)
+  .then(newParcel => {
+    res.status(200).send({newParcel})
+  })
+  .catch(next)
+}
+
+function getUserParcels(req, res, next) {
+  userModel.getUserParcels(req.params.id)
+  .then(userParcels => {
+    res.status(200).send({userParcels})
+  })
+  .catch(next)
+}
+
 //////////////////////////////////////////////////////////////////////////////
 // Quality of Life functions
 //////////////////////////////////////////////////////////////////////////////
@@ -39,5 +65,7 @@ function getOne(req, res, next){
 module.exports = {
   create,
   getAll,
-  getOne
+  getOne,
+  createUserParcel,
+  getUserParcels
 }

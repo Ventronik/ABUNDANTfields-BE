@@ -49,6 +49,7 @@ app.use(function(req, res, next){
 //////////////////////////////////////////////////////////////////////////////
 
 app.use(function(err, req, res, next){
+  console.log(err) // leave this here to make your life better.
   const errorMessage = {}
 
   if(process.env.NODE_ENV !== 'production' && err.stack)
