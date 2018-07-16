@@ -1,4 +1,5 @@
 const userModel = require('../models/users')
+const transactionsModel = require('../models/transactions')
 
 function create(req, res, next){
   if(!req.body.username){
@@ -58,6 +59,17 @@ function getUserParcels(req, res, next) {
   .catch(next)
 }
 
+function createUserTransactions(req,res,next){
+  const owner_id = req.params.id
+  const { parcel_id, price } = req.body
+
+  transactionsModel.create(owner_id, parcel_id, price)
+  .then(transaction => {
+    res.status(200).send({transaction})
+  })
+  .catch(next)
+}
+
 //////////////////////////////////////////////////////////////////////////////
 // Quality of Life functions
 //////////////////////////////////////////////////////////////////////////////
@@ -67,5 +79,6 @@ module.exports = {
   getAll,
   getOne,
   createUserParcel,
-  getUserParcels
+  getUserParcels,
+  createUserTransactions
 }

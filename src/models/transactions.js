@@ -41,9 +41,9 @@ function getOne(id) {
   return query
 }
 
-function create(owner_id, renter_id, parcel_id, price) {
+function create(owner_id, parcel_id, price) {
   return db('transactions')
-  .insert({owner_id, renter_id, parcel_id, price})
+  .insert({owner_id, parcel_id, price})
   .returning('*')
 }
 
