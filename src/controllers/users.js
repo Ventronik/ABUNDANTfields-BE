@@ -70,6 +70,14 @@ function createUserTransactions(req,res,next){
   .catch(next)
 }
 
+function acceptTransaction(req, res, next) {
+  const { id, trans_id } = req.params
+  transactionsModel.edit(id, trans_id)
+  .then(({id, ...transaction})=>{
+    res.status(200).send({transaction})
+  })
+}
+
 //////////////////////////////////////////////////////////////////////////////
 // Quality of Life functions
 //////////////////////////////////////////////////////////////////////////////
@@ -80,5 +88,6 @@ module.exports = {
   getOne,
   createUserParcel,
   getUserParcels,
-  createUserTransactions
+  createUserTransactions,
+  acceptTransaction
 }

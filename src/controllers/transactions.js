@@ -1,6 +1,15 @@
 const transactionsModel = require('../models/transactions')
 
 function getAll(req, res, next) {
+  console.log('hello: ',req.query)
+  transactionsModel.getAll(req.query)
+  .then(transactions => {
+    res.status(200).send({ transactions })
+  })
+  .catch(next)
+}
+
+function getAllAvailable(req, res, next) {
   transactionsModel.getAll()
   .then(transactions => {
     res.status(200).send({ transactions })
@@ -47,5 +56,6 @@ module.exports = {
   getOne,
   create,
   edit,
-  remove
+  remove,
+  getAllAvailable
 }

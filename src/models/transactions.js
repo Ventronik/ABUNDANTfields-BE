@@ -1,10 +1,11 @@
 const db = require('../../db')
 
-function getAll(orderByColumn='id', orderDirection='asc') {
-  const query = db('transactions')
+function getAll({orderByColumn='id', orderDirection='asc', renter_id = '1'}) {
+  console.log('renter_id', renter_id)
+  let query = db('transactions')
     .whereNull('transactions.deleted_at')
     .leftJoin('users', 'users.id', 'transactions.owner_id')
-    .leftJoin('parcels', 'parcels.id','transactions.parcel_id')
+    .innerJoin('parcels', 'parcels.id','transactions.parcel_id')
     .select(
       'transactions.id as id',
       'renter_id as renter',
@@ -18,8 +19,9 @@ function getAll(orderByColumn='id', orderDirection='asc') {
       'users.username',
       'parcels.parcel_name as parcel_name'
     )
-    .orderBy(orderByColumn, orderDirection)
-  return query
+
+    if(renter_id === 'null') query = query.whereNull('transactions.renter_id')
+  return query.orderBy(orderByColumn, orderDirection)
 }
 
 function getOne(id) {
@@ -54,9 +56,9 @@ function remove(id, date) {
   .returning('*')
 }
 
-function edit(id, owner_id, renter_id, parcel_id, price) {
+function edit(renter_id, id) {
   return db('transactions')
-  .update({owner_id, renter_id, parcel_id, price})
+  .update({ renter_id })
   .where({ id })
   .returning('*')
 }

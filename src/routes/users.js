@@ -14,6 +14,7 @@ router.get('/:id', userController.getOne)
 router.post('/:id/parcel', userController.createUserParcel) // need to re-add  authController.isAuthenticated,
 router.get('/:id/parcels', userController.getUserParcels)
 router.post('/:id/transactions', userController.createUserTransactions)
+router.patch('/:id/transactions/:trans_id', userController.acceptTransaction)
 // router.get('/:id/parcels/:parcel_id', userController.getUserParcel) // need to re-add  authController.isAuthenticated,
 
 
