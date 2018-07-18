@@ -11,6 +11,7 @@ function getAll({orderByColumn='id', orderDirection='asc', renter_id = '1'}) {
       'transactions.id as id',
       'renter_id as renter',
       'parcel_id',
+      'acres',
       'transactions.created_at as created_at',
       'transactions.updated_at as updated_at',
       'parcels.location as location',
