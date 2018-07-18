@@ -56,9 +56,53 @@ function createUserParcel(parcel_name, location, parcel_type, owner_id, acres){
 
 function getUserParcels(owner_id) {
   return db('parcels')
-  .where('owner_id', owner_id)
-  // .then((arr) =>
-  //   arr.map(ele => ({...ele, location:JSON.parse(ele.location)})))
+  .select('parcels.id as id',
+          'parcels.location',
+          'parcels.parcel_type',
+          'parcels.acres',
+          'parcels.owner_id',
+          'parcels.parcel_name',
+        )
+  .where('parcels.owner_id', owner_id)
+  .then((parcels) => {
+    return Promise.all(parcels.map(parcel => {
+      return db('transactions')
+              .where('parcel_id', parcel.id)
+              .orderBy('id', 'desc').first()
+              .then(transaction => {
+                return {...parcel, transaction}
+              })
+
+  }))})
+  .then(parcels => {
+    return Promise.all(parcels.map(parcel =>{
+      return db('users')
+              .where('id', parcel.owner_id)
+              .first()
+              .then(({password, ...user}) => {
+                return {...parcel, user}
+              })
+
+  }))})
+  .then(parcels => {
+    return Promise.all(parcels.map(parcel => {
+      if(parcel.transaction && parcel.transaction.renter_id){
+        return db('users')
+        .where('id', parcel.transaction.renter_id)
+        .first()
+        .then(({password, ...renter}) => {
+          return {...parcel, renter}
+        })
+      }
+      else {
+        return {...parcel, renter: null}
+      }
+
+  }))})
+  .then(parcels => {
+    // console.log(parcels)
+    return parcels
+  })
 }
 
 module.exports = {

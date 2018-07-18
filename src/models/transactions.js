@@ -5,6 +5,7 @@ function getAll({orderByColumn='id', orderDirection='asc', renter_id = '1'}) {
   let query = db('transactions')
     .whereNull('transactions.deleted_at')
     .leftJoin('users', 'users.id', 'transactions.owner_id')
+    .leftJoin('users as renters', 'renters.id', 'transactions.renter_id')
     .innerJoin('parcels', 'parcels.id','transactions.parcel_id')
     .select(
       'transactions.id as id',
@@ -17,6 +18,9 @@ function getAll({orderByColumn='id', orderDirection='asc', renter_id = '1'}) {
       'users.first_name as fname',
       'users.last_name as lname',
       'users.username',
+      'renters.first_name as renter_fname',
+      'renters.last_name as renter_lname',
+      'renters.username as renter_uname',
       'parcels.parcel_name as parcel_name'
     )
 
